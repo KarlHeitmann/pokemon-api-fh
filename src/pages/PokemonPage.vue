@@ -7,6 +7,13 @@
       :pokemons="pokemonArr"
       @selection="checkAnswer"
       />
+
+      <template v-if="showAnswer">
+        <h2>{{message}}</h2>
+        <button @click="newGame">
+          Nuevo juego
+        </button>
+      </template>
   </div>
   
 </template>
@@ -24,6 +31,8 @@ export default {
       pokemonArr: [],
       pokemon: null,
       showPokemon: false,
+      showAnswer: false,
+      message: '',
     }
   },
   methods: {
@@ -35,8 +44,18 @@ export default {
       console.log("pokemon", this.pokemon, this.pokemon.id)
     },
     checkAnswer(pokemonId) {
-      console.log('Pokemon page llamado', pokemonId)
       this.showPokemon = true
+      this.showAnswer = true
+      if (this.pokemon.id == pokemonId) this.message = "GANASTE"
+      else this.message = "No lo era, es " + this.pokemon.name
+    },
+    async newGame() {
+      this.pokemon = null
+      this.pokemonArr = await getPokemonOptions()
+      const rndInt = Math.floor( Math.random() * 4 )
+      this.pokemon = this.pokemonArr[rndInt]
+      this.showPokemon = false
+      this.showAnswer = false
     }
   },
   mounted() {
