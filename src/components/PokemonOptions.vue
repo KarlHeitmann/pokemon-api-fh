@@ -1,7 +1,8 @@
 <template>
   <div class="options-container">
     <ul>
-      <li v-for="pokemon in pokemons" :key="pokemon.id">
+      <li v-for="pokemon in pokemons" :key="pokemon.id"
+        @click="$emit('selection', pokemon.id)"> <!-- $emit: primer argumento nombre del evento, si son dos palabras, usar camelCase o kebab-case -->
         {{pokemon.name}}
       </li>
     </ul>
@@ -14,6 +15,11 @@ export default {
     pokemons: {
       type: Array,
       required: true,
+    }
+  },
+  methods: {
+    hole() {
+      //this.$emit()
     }
   }
 }
